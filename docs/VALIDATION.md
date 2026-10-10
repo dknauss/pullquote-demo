@@ -16,7 +16,7 @@ Run on 10 October 2026 with Node.js 24.21.0, npm 11.19.0, Playwright 1.64.0/Chro
 
 Initial no-op verification and subsequent edge-case regressions failed before their implementation fixes. The initial WordPress authoring check failed because the required source selector did not exist, then passed after implementation.
 
-The local comparison page was also inspected visually in Chromium. The hosted launch is checked after publication and recorded below.
+The local comparison page was also inspected visually in Chromium. The public hosted Blueprint also booted successfully in the Codex in-app browser. The original article and core examples loaded, the matching extract reached `aria-hidden="true"`, the missing-source example stayed exposed, and the ambiguous-source page reached `data-extract-status="ambiguous"` without `aria-hidden`. The missing-source link and return link worked; the ambiguous page was additionally checked through Playground’s navigation API. This is browser observation, not a manual screen-reader session.
 
 ## Limits and additional work
 

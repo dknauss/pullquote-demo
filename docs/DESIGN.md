@@ -1,6 +1,6 @@
 # Pullquote demonstrator design
 
-The user authorized a public `dknauss/pullquote-demo` repository and a WordPress Playground demo after reviewing the proposed experimental Article Extract approach. This is a discussion demonstrator, not a production replacement for core blocks.
+This repository demonstrates an experimental Article Extract workflow in WordPress Playground. It is a discussion demonstrator, not a production replacement for core blocks.
 
 ## Contract
 
@@ -20,5 +20,3 @@ The user authorized a public `dknauss/pullquote-demo` repository and a WordPress
 3. A local Playground editor test for selecting a source, saving, reloading and front-end enhancement; PHP smoke checks for registration and existing core blocks.
 4. A self-contained Blueprint embedding the runtime plugin and demonstration content, checked against the current schema and run in ephemeral Playground.
 5. A copy-ready upstream proposal, experimental test brief, runtime ZIP, public GitHub repository and Try in Playground link.
-
-The implementation is divided among independent agents: duplicate verification and fixture tests; Blueprint/demo packaging; proposal documentation. The primary agent owns registration/editor/save/CSS and integration verification, and reviews the combined result before publishing.
