@@ -66,7 +66,7 @@ $content = array(
 	pullquote_demo_seed_steps(
 		array(
 			'<strong>Read the live result above.</strong> This page should report “Original found.” The original paragraph and its repeated Article Extract panel both stay visible on screen.',
-			'<strong>Compare the fallbacks.</strong> <a href="/?page_id=__MISSING_ID__">Open the missing-source example</a> (expect “Original missing”) and <a href="/?page_id=__AMBIGUOUS_ID__">the ambiguous-source example</a> (expect “More than one original found”). Both keep the repeated panel in the reading order.',
+			'<strong>Compare the fallbacks.</strong> <a href="__MISSING_URL__">Open the missing-source example</a> (expect “Original missing”) and <a href="__AMBIGUOUS_URL__">the ambiguous-source example</a> (expect “More than one original found”). Both keep the repeated panel in the reading order.',
 			'<strong>Try an edit.</strong> <a href="__EDITOR_URL__">Edit this comparison article</a>, then follow “Try it in the editor” below. Use the existing paragraph and extract.',
 		)
 	),
@@ -115,7 +115,7 @@ $missing_id = pullquote_demo_seed_page(
 			pullquote_demo_seed_status(),
 			pullquote_demo_seed_paragraph( 'This page deliberately contains no matching article paragraph. The copied passage is therefore available in the ordinary reading order.' ),
 			pullquote_demo_seed_extract( $missing ),
-			pullquote_demo_seed_paragraph( '<a href="/">Return to the comparison article</a> (expect “Original found”) or <a href="/ambiguous-source/">open the ambiguous-source example</a> (expect “More than one original found”). Every repeated panel remains visible; the live result describes whether assistive technology is told to skip it, not a completed screen-reader test.' ),
+			pullquote_demo_seed_paragraph( '<a href="__FRONT_URL__">Return to the comparison article</a> (expect “Original found”) or <a href="__AMBIGUOUS_URL__">open the ambiguous-source example</a> (expect “More than one original found”). Every repeated panel remains visible; the live result describes whether assistive technology is told to skip it, not a completed screen-reader test.' ),
 			pullquote_demo_seed_paragraph( 'For an optional screen-reader check, read through this page and note whether the copied passage is spoken. In your feedback, include the steps, live result, any confusing instructions, your browser and operating-system versions, and your screen-reader name, version, and actual reading behavior if used.' ),
 		)
 	)
@@ -134,29 +134,34 @@ $ambiguous_id = pullquote_demo_seed_page(
 			pullquote_demo_seed_paragraph( esc_html( $ambiguous ) ),
 			pullquote_demo_seed_paragraph( esc_html( $ambiguous ) ),
 			pullquote_demo_seed_extract( $ambiguous ),
-			pullquote_demo_seed_paragraph( '<a href="/">Return to the comparison article</a> (expect “Original found”) or <a href="/missing-source/">open the missing-source example</a> (expect “Original missing”). Every repeated panel remains visible; the live result describes whether assistive technology is told to skip it, not a completed screen-reader test.' ),
+			pullquote_demo_seed_paragraph( '<a href="__FRONT_URL__">Return to the comparison article</a> (expect “Original found”) or <a href="__MISSING_URL__">open the missing-source example</a> (expect “Original missing”). Every repeated panel remains visible; the live result describes whether assistive technology is told to skip it, not a completed screen-reader test.' ),
 			pullquote_demo_seed_paragraph( 'For an optional screen-reader check, read through this page and note whether both original paragraphs and the repeated panel are spoken. In your feedback, include the steps, live result, any confusing instructions, your browser and operating-system versions, and your screen-reader name, version, and actual reading behavior if used.' ),
 		)
 	)
 );
 
 $front_id = pullquote_demo_seed_page( 'article-extract-demo', 'Article extracts, without losing the article', implode( "\n\n", $content ) );
-$editor_url = get_edit_post_link( $front_id, 'raw' );
-$final_content = str_replace(
-	array( '__MISSING_ID__', '__AMBIGUOUS_ID__', '__EDITOR_URL__' ),
-	array( (string) $missing_id, (string) $ambiguous_id, esc_url( $editor_url ) ),
-	implode( "\n\n", $content )
-);
-$result = wp_update_post( array( 'ID' => $front_id, 'post_content' => $final_content ), true );
-if ( is_wp_error( $result ) ) {
-	throw new RuntimeException( $result->get_error_message() );
-}
-
 update_option( 'blogname', 'Article Extract demonstration' );
 update_option( 'blogdescription', 'Distinct blocks for quoted voices, repeated passages, and supplementary notes.' );
 update_option( 'show_on_front', 'page' );
 update_option( 'page_on_front', $front_id );
 update_option( 'permalink_structure', '/%postname%/' );
 flush_rewrite_rules( false );
+
+// Resolve links only after every page and the public URL settings exist.
+$link_placeholders = array( '__FRONT_URL__', '__MISSING_URL__', '__AMBIGUOUS_URL__', '__EDITOR_URL__' );
+$link_urls = array(
+	esc_url( home_url( '/' ) ),
+	esc_url( get_permalink( $missing_id ) ),
+	esc_url( get_permalink( $ambiguous_id ) ),
+	esc_url( get_edit_post_link( $front_id, 'raw' ) ),
+);
+foreach ( array( $front_id, $missing_id, $ambiguous_id ) as $page_id ) {
+	$final_content = str_replace( $link_placeholders, $link_urls, get_post_field( 'post_content', $page_id, 'raw' ) );
+	$result = wp_update_post( array( 'ID' => $page_id, 'post_content' => $final_content ), true );
+	if ( is_wp_error( $result ) ) {
+		throw new RuntimeException( $result->get_error_message() );
+	}
+}
 
 echo wp_json_encode( array( 'front_page' => $front_id, 'missing_source' => $missing_id, 'ambiguous_source' => $ambiguous_id ) );

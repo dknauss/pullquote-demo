@@ -175,6 +175,15 @@ test( 'the Blueprint preserves valid core blocks and exposes its fallback exampl
 			exact: true,
 		} )
 		.getAttribute( 'href' );
+	const sitePrefix = editorURL.split( '/wp-admin/' )[ 0 ];
+	for ( const label of [
+		'Open the missing-source example',
+		'the ambiguous-source example',
+	] ) {
+		await expect(
+			page.getByRole( 'link', { name: label, exact: true } )
+		).toHaveAttribute( 'href', new RegExp( `^${ sitePrefix }/` ) );
+	}
 	await expect( page.locator( '[data-article-extract]' ) ).toHaveAttribute(
 		'data-extract-status',
 		'verified'
@@ -207,6 +216,18 @@ test( 'the Blueprint preserves valid core blocks and exposes its fallback exampl
 	await expect(
 		page.locator( '[data-pullquote-demo-status]' )
 	).toContainText( 'Original missing' );
+	await expect(
+		page.getByRole( 'link', {
+			name: 'Return to the comparison article',
+			exact: true,
+		} )
+	).toHaveAttribute( 'href', `${ sitePrefix }/` );
+	await expect(
+		page.getByRole( 'link', {
+			name: 'open the ambiguous-source example',
+			exact: true,
+		} )
+	).toHaveAttribute( 'href', new RegExp( `^${ sitePrefix }/` ) );
 	await page.goto( '/' );
 	await page
 		.getByRole( 'link', { name: 'the ambiguous-source example' } )

@@ -23,6 +23,10 @@ $ambiguous = get_page_by_path( 'ambiguous-source', OBJECT, 'page' );
 pullquote_demo_smoke_assert( $front && $missing && $ambiguous, 'all comparison and fallback pages exist' );
 foreach ( array( $front, $missing, $ambiguous ) as $example ) {
 	pullquote_demo_smoke_assert( 1 === substr_count( $example->post_content, 'data-pullquote-demo-status' ), 'each example has one visible test-result placeholder' );
+	preg_match_all( '/href="([^"]+)"/', $example->post_content, $links );
+	foreach ( $links[1] as $url ) {
+		pullquote_demo_smoke_assert( 0 === strpos( html_entity_decode( $url, ENT_QUOTES | ENT_HTML5, 'UTF-8' ), trailingslashit( home_url() ) ), 'example links preserve the WordPress site URL prefix' );
+	}
 }
 pullquote_demo_smoke_assert( 'page' === get_option( 'show_on_front' ) && (int) $front->ID === (int) get_option( 'page_on_front' ), 'the comparison article is the static front page' );
 
