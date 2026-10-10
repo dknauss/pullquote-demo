@@ -1,0 +1,38 @@
+{
+	"name": "pullquote-demo",
+	"version": "0.1.0",
+	"description": "Repeat an article passage as a visual highlight while preserving its original reading sequence.",
+	"author": "Dan Knauss",
+	"license": "GPL-2.0-or-later",
+	"main": "build/article-extract/index.js",
+	"scripts": {
+		"build": "wp-scripts build --blocks-manifest",
+		"format": "wp-scripts format",
+		"lint:css": "wp-scripts lint-style",
+		"lint:js": "wp-scripts lint-js",
+		"packages-update": "wp-scripts packages-update",
+		"plugin-zip": "wp-scripts plugin-zip",
+		"start": "wp-scripts start --blocks-manifest",
+		"test": "playwright test --project=verification",
+		"test:wordpress": "playwright test --project=wordpress",
+		"demo:build": "node scripts/create-blueprint.mjs --smoke",
+		"demo:check": "node scripts/validate-blueprint.mjs && wp-playground-cli run-blueprint --blueprint=dist/demo-smoke.json",
+		"demo:start": "wp-playground-cli server --blueprint=blueprints/demo.json --port=9400",
+		"package": "node scripts/package-plugin.mjs"
+	},
+	"dependencies": {
+		"@wordpress/block-editor": "latest",
+		"@wordpress/blocks": "latest",
+		"@wordpress/components": "^42.0.0",
+		"@wordpress/data": "^10.57.0",
+		"@wordpress/i18n": "latest",
+		"@wordpress/rich-text": "^7.57.0"
+	},
+	"devDependencies": {
+		"@playwright/test": "^1.64.0",
+		"@wordpress/scripts": "^36.1.0",
+		"@wp-playground/cli": "^3.1.57",
+		"ajv": "^8.20.0"
+	},
+	"private": true
+}

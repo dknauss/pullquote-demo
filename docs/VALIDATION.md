@@ -1,0 +1,25 @@
+# Validation record
+
+Run on 10 October 2026 with Node.js 24.21.0, npm 11.19.0, Playwright 1.64.0/Chromium, and the locked Playground CLI 3.1.57. The generated demo used WordPress 7.1.3, PHP 8.3, and Twenty Twenty-Five. The plugin’s minimum supported WordPress/PHP versions were not separately exercised.
+
+## Completed checks
+
+- `npm run build`: production assets and block manifest generated successfully.
+- `npm run lint:js` and `npm run lint:css`: passed.
+- PHP syntax checks: plugin bootstrap, demo seed, and smoke assertions passed.
+- `npm test`: 50 Chromium browser fixtures passed. They cover exact text/whitespace/hard-line-break matching, article scope, missing and ambiguous sources, hidden sources, custom semantics, interactive or embedded content, and recovery after supported mutations and viewport changes.
+- `npm run test:wordpress`: 3 browser workflows passed against a fresh local instance created from the committed Blueprint. They cover explicit source selection, saving/reloading a valid block, the JavaScript-disabled fallback, preservation of original emphasis and links, stale-source guidance and explicit recopy, the main demo’s verification state, both fallback pages, and validation of all seeded core blocks.
+- Both `blueprints/demo.json` and `dist/demo-smoke.json` validated against the current official Playground Blueprint schema.
+- The pinned CLI completed the generated smoke Blueprint with exit code 0. Assertions cover activation, registration of Article Extract/Quote/Pullquote, fixture pages, static front page, a single canonical source, unchanged core Pullquote markup, visible server output, and retained static content without block registration.
+- Runtime ZIP generation and archive integrity validation passed. The ZIP contains the PHP bootstrap, readme, license, and built assets; it excludes npm dependencies and source maps.
+- Read-only review found and prompted fixes for custom ARIA roles/descriptions, visibility changes through an ID, and hard line breaks.
+
+Initial no-op verification and subsequent edge-case regressions failed before their implementation fixes. The initial WordPress authoring check failed because the required source selector did not exist, then passed after implementation.
+
+The local comparison page was also inspected visually in Chromium. The hosted launch is checked after publication and recorded below.
+
+## Limits and additional work
+
+Manual keyboard exploration, VoiceOver and NVDA testing, author research, minimum-version compatibility, third-party themes, mobile layouts, and export/print policy remain proposed work. Browser DOM checks and the visible fallback do not establish universal accessibility conformance. CSS-generated content, CSSOM-only changes, animation-driven visibility, and programmatically attached event handlers are outside the current verification model.
+
+`npm audit` reported 48 dependency advisories (3 low, 17 moderate, 28 high) in the development/install graph; the production-filtered npm graph reported 14 high advisories inherited through WordPress UI packages, ultimately from `braces`. Those npm trees are not shipped in the plugin archive: the build resolves WordPress APIs through host-provided scripts. This record does not claim an advisory-free development toolchain or audit the host WordPress installation.
