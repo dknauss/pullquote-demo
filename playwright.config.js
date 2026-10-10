@@ -17,7 +17,10 @@ module.exports = defineConfig( {
 	reporter: 'list',
 	use: { browserName: 'chromium', baseURL, trace: 'retain-on-failure' },
 	projects: [
-		{ name: 'verification', testMatch: 'verification.spec.js' },
+		{
+			name: 'verification',
+			testMatch: [ 'verification.spec.js', 'demo-guide.spec.js' ],
+		},
 		{ name: 'wordpress', testMatch: 'editor.spec.js' },
 	],
 } );

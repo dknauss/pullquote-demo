@@ -101,6 +101,22 @@ export async function createBlueprint() {
 				},
 			},
 			{
+				step: 'installPlugin',
+				pluginData: {
+					resource: 'literal:directory',
+					name: 'pullquote-demo-guide',
+					files: await readRuntimeDirectory(
+						path.join( projectRoot, 'demo', 'guide' )
+					),
+				},
+				options: {
+					activate: true,
+					targetFolderName: 'pullquote-demo-guide',
+				},
+				ifAlreadyInstalled: 'overwrite',
+				progress: { caption: 'Adding the visible test guide' },
+			},
+			{
 				step: 'runPHP',
 				code: await readFile(
 					path.join( projectRoot, 'demo', 'seed.php' ),

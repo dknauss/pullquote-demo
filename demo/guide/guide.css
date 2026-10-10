@@ -1,0 +1,40 @@
+.pullquote-demo-guided-page main {
+	margin-top: 1rem !important;
+}
+
+.pullquote-demo-guided-page main > .wp-block-group {
+	padding-top: 1rem !important;
+}
+
+.pullquote-demo-guided-page .wp-block-post-title {
+	font-size: 2rem;
+	line-height: 1.2;
+}
+
+.pullquote-demo-guided-page .wp-block-post-content {
+	font-size: 1.125rem;
+	line-height: 1.55;
+}
+
+.pullquote-demo-guided-page .wp-block-post-content > h2 {
+	font-size: 1.5rem;
+}
+
+.pullquote-demo-test-status {
+	border: 2px solid #4d5661;
+	border-radius: 0.25rem;
+	padding: 1rem 1.25rem;
+	background: #f3f6fa;
+	color: #1c1c1c;
+}
+
+.pullquote-demo-test-status h2 {
+	margin: 0 0 0.5rem;
+	font-size: 1.25rem;
+}
+
+.pullquote-demo-test-status p {
+	margin: 0;
+	font-size: 1rem;
+	line-height: 1.6;
+}

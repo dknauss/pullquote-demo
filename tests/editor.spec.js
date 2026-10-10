@@ -166,6 +166,7 @@ test( 'an author can recopy revised text while original formatting and links rem
 
 test( 'the Blueprint preserves valid core blocks and exposes its fallback examples', async ( {
 	page,
+	browser,
 } ) => {
 	await page.goto( '/' );
 	const editorURL = await page
@@ -178,6 +179,13 @@ test( 'the Blueprint preserves valid core blocks and exposes its fallback exampl
 		'data-extract-status',
 		'verified'
 	);
+	await expect(
+		page.locator( '[data-pullquote-demo-status]' )
+	).toContainText( 'Original found' );
+	await expect(
+		page.locator( '[data-pullquote-demo-status]' )
+	).toContainText( 'marked to be skipped' );
+	await expect( page.locator( '[data-article-extract]' ) ).toBeVisible();
 	await expect( page.locator( '.wp-block-quote' ) ).toBeVisible();
 	await expect(
 		page.locator( '.wp-block-pullquote > blockquote' )
@@ -196,6 +204,9 @@ test( 'the Blueprint preserves valid core blocks and exposes its fallback exampl
 	await expect(
 		page.locator( '[data-article-extract]' )
 	).not.toHaveAttribute( 'aria-hidden', 'true' );
+	await expect(
+		page.locator( '[data-pullquote-demo-status]' )
+	).toContainText( 'Original missing' );
 	await page.goto( '/' );
 	await page
 		.getByRole( 'link', { name: 'the ambiguous-source example' } )
@@ -207,6 +218,21 @@ test( 'the Blueprint preserves valid core blocks and exposes its fallback exampl
 	await expect(
 		page.locator( '[data-article-extract]' )
 	).not.toHaveAttribute( 'aria-hidden', 'true' );
+	await expect(
+		page.locator( '[data-pullquote-demo-status]' )
+	).toContainText( 'More than one original' );
+	const fallbackContext = await browser.newContext( {
+		javaScriptEnabled: false,
+	} );
+	const fallbackPage = await fallbackContext.newPage();
+	await fallbackPage.goto( '/' );
+	await expect(
+		fallbackPage.locator( '[data-pullquote-demo-status]' )
+	).toContainText( 'If JavaScript is disabled' );
+	await expect(
+		fallbackPage.locator( '[data-article-extract]' )
+	).toBeVisible();
+	await fallbackContext.close();
 	await page.goto( editorURL );
 	await page.waitForFunction(
 		() =>

@@ -12,6 +12,7 @@ function pullquote_demo_smoke_assert( $condition, $message ) {
 $registry = WP_Block_Type_Registry::get_instance();
 $block_name = 'pullquote-demo/article-extract';
 pullquote_demo_smoke_assert( is_plugin_active( 'pullquote-demo/article-extract.php' ), 'the demonstration plugin is active' );
+pullquote_demo_smoke_assert( is_plugin_active( 'pullquote-demo-guide/demo-guide.php' ), 'the separate test guide is active' );
 foreach ( array( $block_name, 'core/quote', 'core/pullquote' ) as $name ) {
 	pullquote_demo_smoke_assert( $registry->is_registered( $name ), $name . ' is registered' );
 }
@@ -20,6 +21,9 @@ $front = get_page_by_path( 'article-extract-demo', OBJECT, 'page' );
 $missing = get_page_by_path( 'missing-source', OBJECT, 'page' );
 $ambiguous = get_page_by_path( 'ambiguous-source', OBJECT, 'page' );
 pullquote_demo_smoke_assert( $front && $missing && $ambiguous, 'all comparison and fallback pages exist' );
+foreach ( array( $front, $missing, $ambiguous ) as $example ) {
+	pullquote_demo_smoke_assert( 1 === substr_count( $example->post_content, 'data-pullquote-demo-status' ), 'each example has one visible test-result placeholder' );
+}
 pullquote_demo_smoke_assert( 'page' === get_option( 'show_on_front' ) && (int) $front->ID === (int) get_option( 'page_on_front' ), 'the comparison article is the static front page' );
 
 $blocks = parse_blocks( $front->post_content );
@@ -61,5 +65,5 @@ echo wp_json_encode( array(
 	'wordpress' => get_bloginfo( 'version' ),
 	'php' => PHP_VERSION,
 	'theme' => get_stylesheet(),
-	'checks' => array( 'plugin active', 'three block types registered', 'three demo pages', 'static front page', 'one canonical paragraph', 'core blocks preserved', 'visible saved and rendered fallback', 'fallback without block registration' ),
+	'checks' => array( 'plugin and separate guide active', 'three block types registered', 'three guided demo pages', 'static front page', 'one canonical paragraph', 'core blocks preserved', 'visible saved and rendered fallback', 'fallback without block registration' ),
 ) );

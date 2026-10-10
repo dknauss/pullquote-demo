@@ -28,7 +28,9 @@ npm run demo:start
 
 With the local demo running at `http://127.0.0.1:9400`, run `npm run test:wordpress` in another terminal. These editor tests allow only localhost URLs because they create disposable content. They exercise explicit source selection, saving, reload validation, and the public-page enhancement. Browser fixture tests exercise source eligibility and recovery. PHP smoke assertions exercise the installed plugin, demo pages, preserved core blocks, and saved fallback.
 
-The demo includes a verified extract, the existing Quote and Pullquote, a unique supplementary aside, and separate missing/ambiguous-source examples. [Playground instructions](docs/PLAYGROUND.md) cover the hosted launch and local checks.
+The demo opens with a quick start and a **Live test result** panel, followed by the original paragraph and its repeated extract. It includes Quote, Pullquote, a unique supplementary aside, missing/ambiguous-source examples with expected outcomes, and an editing exercise. No installation or account is needed; Playground signs you in automatically. [Playground instructions](docs/PLAYGROUND.md) cover the guided checks and local setup.
+
+The live result reports the browser's matching decision and the actual omission attribute. It does not certify screen-reader behavior. Its guide plugin is installed only by the demo Blueprint and is excluded from the standalone Article Extract ZIP.
 
 ## Install the plugin separately
 
