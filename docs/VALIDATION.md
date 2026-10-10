@@ -20,7 +20,7 @@ The local comparison page was also inspected visually in Chromium. The public ho
 
 The guided update was inspected in the local Codex in-app browser. Its welcome dialog had a Close button; the editor toolbar contained Save and View Page, and View Page opened the comparison article in another tab. The editor’s blob iframe canvas stayed blank in that browser, while Chromium authoring workflows passed. The guide instructions include the welcome dialog and possible new tab; the Playground documentation advises a regular browser if an embedded editor canvas is blank.
 
-The published guided Blueprint also loaded its live result without console errors. A hardcoded root-relative fallback link failed to navigate in hosted Playground; the equivalent WordPress-generated navigation link worked. The seed now resolves all comparison, fallback, and editor links through WordPress after URL setup so they retain Playground’s site prefix. Smoke and browser assertions cover the generated URLs.
+The published guided Blueprint loaded all three live results, and the links between its example pages worked. A wrapped link was not activated by the Codex browser’s default locator click; clicking its visible text opened the destination. This observation does not establish a broken link for human users. The seed now resolves all comparison, fallback, and editor links through WordPress after URL setup so they retain Playground’s site prefix. Smoke and browser assertions cover the generated URLs.
 
 ## Limits and additional work
 
