@@ -1,0 +1,47 @@
+{
+  "version": 1,
+  "repository": "pullquote-demo",
+  "scopes": [
+    "src"
+  ],
+  "components": [
+    {
+      "id": "pullquote-demo/article-extract",
+      "kind": "block",
+      "source": "src/article-extract/block.json",
+      "design_owner": "Repository source files",
+      "data_owner": "WordPress editorial content",
+      "editable": "Declared attributes: text; existing style controls are listed in supports. Attribute declarations are not proof of visible UI controls.",
+      "updates": "Saved output remains in post content; existing instances require compatibility/deprecations before markup changes",
+      "verification": "Source validation plus editor and frontend checks on a local site",
+      "attributes": {
+        "text": {
+          "type": "string",
+          "source": "text",
+          "selector": "p",
+          "default": ""
+        }
+      },
+      "supports": {
+        "html": false,
+        "color": {
+          "text": true,
+          "background": true
+        },
+        "spacing": {
+          "margin": true,
+          "padding": true
+        },
+        "typography": {
+          "fontSize": true,
+          "lineHeight": true
+        }
+      },
+      "references": [
+        "src/article-extract/save.js",
+        "src/article-extract/edit.js",
+        "src/article-extract/index.js"
+      ]
+    }
+  ]
+}
