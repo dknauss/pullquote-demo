@@ -39,3 +39,9 @@ The repository commits its built assets. Copy `article-extract.php`, `build/`, `
 After changing runtime code or demo content, rebuild and run `npm run demo:build` to update the committed, self-contained Blueprint. No production site or application credentials are required. No content conversion runs on activation.
 
 GPL-2.0-or-later. Based on the official `@wordpress/create-block` scaffold.
+
+## Component ownership
+
+See [component editing contracts](docs/COMPONENTS.md) and the
+[design/content workflow](docs/COMPONENT-WORKFLOW.md). Validate with
+`python3 tools/check-components.py`.
